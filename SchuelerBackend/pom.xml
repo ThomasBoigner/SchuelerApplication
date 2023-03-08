@@ -15,6 +15,16 @@
     <description>SchuelerBackend</description>
     <properties>
         <java.version>19</java.version>
+
+        <!-- dependency version -->
+        <lombok.version>1.18.24</lombok.version>
+        <spring-data-jpa.version>2.7.2</spring-data-jpa.version>
+        <h2.version>2.1.212</h2.version>
+        <jnanoid.version>2.0.0</jnanoid.version>
+        <log4j-api.version>2.19.0</log4j-api.version>
+        <log4j-core.version>2.19.0</log4j-core.version>
+        <log4j-slf4j-impl.version>2.19.0</log4j-slf4j-impl.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
     </properties>
     <dependencies>
         <dependency>
@@ -27,6 +37,42 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.214</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aventrix.jnanoid</groupId>
+            <artifactId>jnanoid</artifactId>
+            <version>${jnanoid.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation-api.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -37,5 +83,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
