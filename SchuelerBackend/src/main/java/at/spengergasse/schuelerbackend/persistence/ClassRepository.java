@@ -8,6 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface ClassRepository extends JpaRepository<Class, Long> {
-    Optional<Class> getByToken(String token);
-    Optional<Class> getByName(String name);
+    Optional<Class> getClassByToken(String token);
+    Optional<Class> getClassByName(String name);
+    boolean existsClassByToken(String token);
+    void deleteClassByToken(String token);
 }

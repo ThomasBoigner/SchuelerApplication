@@ -7,5 +7,4 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@Builder
 public record MutateTeacherCommand(@NotBlank String firstname, @NotBlank String lastname, @NotBlank String email) { }

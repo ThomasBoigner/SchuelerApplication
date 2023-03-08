@@ -74,7 +74,7 @@ public class StudentService {
         if (command.firstname() != null && !command.firstname().isBlank()) student.setFirstname(command.firstname());
         if (command.lastname() != null && !command.lastname().isBlank()) student.setLastname(command.lastname());
         if (command.email() != null && !command.email().isBlank()) student.setEmail(command.email());
-        if (command._class() != null) student.set_class(classRepository.getByToken(command._class()).orElseThrow(() -> new IllegalArgumentException(String.format("Class with token %s can not be found!", command._class()))));
+        if (command._class() != null) student.set_class(classRepository.getClassByToken(command._class()).orElseThrow(() -> new IllegalArgumentException(String.format("Class with token %s can not be found!", command._class()))));
         if (command.conferenceDecision() != null) student.setConferenceDecision(command.conferenceDecision().booleanValue());
         if (command.grades() != null && !command.grades().isEmpty()) student.setGrades(command.grades().stream().map((String gradeToken) -> gradeRepository.findByToken(gradeToken).orElse(null)).toList());
 
@@ -91,11 +91,11 @@ public class StudentService {
         studentRepository.deleteStudentByToken(token);
     }
 
-    public Student _createStudent(Optional<String> token, MutateStudentCommand command){
+    private Student _createStudent(Optional<String> token, MutateStudentCommand command){
         LocalDateTime creationTS = temporalValueFactory.now();
         String tokenValue = token.orElseGet(() -> tokenService.createNanoId());
 
-        Class _class = classRepository.getByToken(command._class()).orElse(null);
+        Class _class = classRepository.getClassByToken(command._class()).orElse(null);
 
         Student student = Student.builder()
                 .firstname(command.firstname())

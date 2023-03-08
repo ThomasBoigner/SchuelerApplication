@@ -7,5 +7,4 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@Builder
 public record MutateSubjectCommand(@NotBlank String shortname, @NotBlank String longname) { }

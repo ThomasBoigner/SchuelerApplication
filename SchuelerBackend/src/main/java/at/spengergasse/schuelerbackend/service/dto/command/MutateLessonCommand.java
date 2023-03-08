@@ -7,5 +7,4 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-@Builder
 public record MutateLessonCommand(String subject, String _class, String teacherCommand) { }

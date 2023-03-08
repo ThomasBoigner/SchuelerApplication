@@ -64,7 +64,7 @@ public class StudentRestController {
         return ResponseEntity.ok(new StudentDto(studentService.partiallyUpdateStudent(id, command)));
     }
 
-    @DeleteMapping(PATH_INDEX)
+    @DeleteMapping({"", PATH_INDEX})
     public HttpEntity<Void> deleteStudents(){
         studentService.deleteStudents();
         return ResponseEntity.ok().build();
