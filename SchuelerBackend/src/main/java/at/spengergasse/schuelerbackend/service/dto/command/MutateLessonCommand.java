@@ -8,4 +8,4 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 @Builder
-public record MutateLessonCommand(@NotNull String subject, @NotNull String _class, @NotNull String teacherCommand) { }
+public record MutateLessonCommand(String subject, String _class, String teacherCommand) { }

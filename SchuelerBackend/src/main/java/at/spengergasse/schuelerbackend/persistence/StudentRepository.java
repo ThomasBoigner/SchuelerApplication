@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> getBy_class(Class _class);
     Optional<Student> findStudentsByToken(String token);
+    boolean existsStudentByToken(String token);
+    void deleteStudentByToken(String token);
 }
