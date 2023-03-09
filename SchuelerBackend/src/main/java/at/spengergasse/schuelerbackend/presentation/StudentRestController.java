@@ -5,6 +5,7 @@ import at.spengergasse.schuelerbackend.service.StudentService;
 import at.spengergasse.schuelerbackend.service.dto.StudentDto;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateStudentCommand;
 import at.spengergasse.schuelerbackend.service.dto.command.UpdateStudentCommand;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -49,18 +50,18 @@ public class StudentRestController {
     }
 
     @PostMapping({PATH_INDEX, ""})
-    public HttpEntity<StudentDto> createStudent(@RequestBody MutateStudentCommand command){
+    public HttpEntity<StudentDto> createStudent(@RequestBody @Valid MutateStudentCommand command){
         Student student = studentService.createStudent(command);
         return ResponseEntity.created(createSelfLink(student)).body(new StudentDto(student));
     }
 
     @PutMapping(PATH_VAR_ID)
-    public HttpEntity<StudentDto> replaceStudent(@PathVariable String id, @RequestBody MutateStudentCommand command){
+    public HttpEntity<StudentDto> replaceStudent(@PathVariable String id, @RequestBody @Valid MutateStudentCommand command){
         return ResponseEntity.ok(new StudentDto(studentService.replaceStudent(id, command)));
     }
 
     @PatchMapping(PATH_VAR_ID)
-    public HttpEntity<StudentDto> partiallyUpdateStudent(@PathVariable String id, @RequestBody UpdateStudentCommand command){
+    public HttpEntity<StudentDto> partiallyUpdateStudent(@PathVariable String id, @RequestBody @Valid UpdateStudentCommand command){
         return ResponseEntity.ok(new StudentDto(studentService.partiallyUpdateStudent(id, command)));
     }
 

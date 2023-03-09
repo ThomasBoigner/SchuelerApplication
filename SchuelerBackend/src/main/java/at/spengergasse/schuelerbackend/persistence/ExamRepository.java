@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-    boolean existsByDate(LocalDateTime date);
-    Optional<Exam> getByToken(String token);
+    boolean existsExamByDate(LocalDateTime date);
+    Optional<Exam> getExamByToken(String token);
+    boolean existsExamByToken(String token);
+    void deleteExamByToken(String token);
 }
