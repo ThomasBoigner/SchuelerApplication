@@ -1,0 +1,186 @@
+POST http://localhost:8080/api/student/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "firstname": "Thomas",
+  "lastname": "Boigner",
+  "email": "BOI19439@spengergasse.at",
+  "_class": {
+    "name": "5BHIF"
+  },
+  "conferenceDecision": true,
+  "grades": [
+    {
+      "gradeValue": 5,
+      "lesson": {
+        "subject": {
+          "shortname": "NVS",
+          "longname": "Netzwerktechnik"
+        },
+        "teacher": {
+          "firstname": "Hans Peter",
+          "lastname": "Berger",
+          "email": "berger@spengerasse.at"
+        }
+      }
+    },
+    {
+      "gradeValue": 5,
+      "lesson": {
+        "subject": {
+          "shortname": "AM",
+          "longname": "Angewante Mathematik"
+        },
+        "teacher": {
+          "firstname": "Michael",
+          "lastname": "Bolz",
+          "email": "bolz@spengerasse.at"
+        }
+      }
+    }
+  ]
+}
+
+###
+
+POST http://localhost:8080/api/student/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "firstname": "Philipp",
+  "lastname": "Cserich",
+  "email": "CSE19551@spengergasse.at",
+  "_class": {
+    "name": "5BHIF"
+  },
+  "conferenceDecision": true,
+  "grades": [
+    {
+      "gradeValue": 5,
+      "lesson": {
+        "subject": {
+          "shortname": "NVS",
+          "longname": "Netzwerktechnik"
+        },
+        "teacher": {
+          "firstname": "Hans Peter",
+          "lastname": "Berger",
+          "email": "berger@spengerasse.at"
+        }
+      }
+    },
+    {
+      "gradeValue": 1,
+      "lesson": {
+        "subject": {
+          "shortname": "AM",
+          "longname": "Angewante Mathematik"
+        },
+        "teacher": {
+          "firstname": "Michael",
+          "lastname": "Bolz",
+          "email": "bolz@spengerasse.at"
+        }
+      }
+    }
+  ]
+}
+
+###
+
+POST http://localhost:8080/api/student/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "firstname": "Michelle",
+  "lastname": "Legado",
+  "email": "LEG19643@spengergasse.at",
+  "_class": {
+    "name": "5AHIF"
+  },
+  "conferenceDecision": false,
+  "grades": [
+    {
+      "gradeValue": 1,
+      "lesson": {
+        "subject": {
+          "shortname": "NVS",
+          "longname": "Netzwerktechnik"
+        },
+        "teacher": {
+          "firstname": "Harald",
+          "lastname": "Auinger",
+          "email": "auinger@spengerasse.at"
+        }
+      }
+    },
+    {
+      "gradeValue": 4,
+      "lesson": {
+        "subject": {
+          "shortname": "AM",
+          "longname": "Angewante Mathematik"
+        },
+        "teacher": {
+          "firstname": "Birgit",
+          "lastname": "Schiefer",
+          "email": "Schiefer@spengerasse.at"
+        }
+      }
+    }
+  ]
+}
+
+###
+
+POST http://localhost:8080/api/student/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "firstname": "Florian",
+  "lastname": "Flatscher",
+  "email": "FLA19437@spengergasse.at",
+  "_class": {
+    "name": "5EHIF"
+  },
+  "conferenceDecision": true,
+  "grades": [
+    {
+      "gradeValue": 1,
+      "lesson": {
+        "subject": {
+          "shortname": "NVS",
+          "longname": "Netzwerktechnik"
+        },
+        "teacher": {
+          "firstname": "Hans Peter",
+          "lastname": "Berger",
+          "email": "berger@spengerasse.at"
+        }
+      }
+    },
+    {
+      "gradeValue": 1,
+      "lesson": {
+        "subject": {
+          "shortname": "AM",
+          "longname": "Angewante Mathematik"
+        },
+        "teacher": {
+          "firstname": "Beil",
+          "lastname": "Sabine",
+          "email": "Schiefer@spengerasse.at"
+        }
+      }
+    }
+  ]
+}
+
+###
+
+GET http://localhost:8080/api/student/
+Accept: application/json

@@ -22,6 +22,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(ClassRestController.BASE_URL)
 public class ClassRestController {
@@ -33,6 +34,7 @@ public class ClassRestController {
     public static final String PATH_VAR_ID = "/{id}";
     public static final String ROUTE_ID = BASE_URL + PATH_VAR_ID;
 
+    @CrossOrigin
     @GetMapping({"", PATH_INDEX})
     public HttpEntity<List<ClassDto>> getClasses(){
         List<Class> classes = classService.getClasses();

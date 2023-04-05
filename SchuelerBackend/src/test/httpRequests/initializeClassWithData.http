@@ -1,0 +1,42 @@
+POST http://localhost:8080/api/class/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "5AHIF"
+}
+
+###
+
+POST http://localhost:8080/api/class/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "5BHIF"
+}
+
+###
+
+POST http://localhost:8080/api/class/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "5CHIF"
+}
+
+###
+
+POST http://localhost:8080/api/class/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "5EHIF"
+}
+
+###
+
+GET http://localhost:8080/api/class/
+Accept: application/json
