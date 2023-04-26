@@ -92,7 +92,6 @@ public class StudentService {
     }
 
     private Student _createStudent(Optional<String> token, MutateStudentCommand command){
-        LocalDateTime creationTS = temporalValueFactory.now();
         String tokenValue = token.orElseGet(tokenService::createNanoId);
 
         Class _class = classRepository.getClassByToken(command._class()).orElse(null);
@@ -104,7 +103,6 @@ public class StudentService {
                 .conferenceDecision(command.conferenceDecision())
                 ._class(_class)
                 .token(tokenValue)
-                .creationTS(creationTS)
                 .build();
 
         student.setGrades(command.grades().stream().map((String gradeToken) -> gradeRepository.findByToken(gradeToken).orElse(null)).toList());

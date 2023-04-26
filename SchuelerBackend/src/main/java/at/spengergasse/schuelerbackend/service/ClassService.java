@@ -111,7 +111,7 @@ public class ClassService {
                 .token(tokenValue)
                 .build();
 
-        log.trace("Mapped command {} to Class object {}", command, _class);
+        log.trace("Mapped command {} to class object {}", command, _class);
         return classRepository.save(_class);
     }
 }

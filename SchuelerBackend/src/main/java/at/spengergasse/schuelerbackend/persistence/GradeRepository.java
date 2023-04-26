@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface GradeRepository extends JpaRepository<Grade, Long> {
     Optional<Grade> findByToken(String token);
+    boolean existsGradeByToken(String token);
+    void deleteGradeByToken(String token);
 }

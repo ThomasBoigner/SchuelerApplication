@@ -1,9 +1,6 @@
 package at.spengergasse.schuelerbackend.domain;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +18,7 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Lesson extends AbstractPersistable<Long> {
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "subject_id")
+    @Embedded
     private Subject subject;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

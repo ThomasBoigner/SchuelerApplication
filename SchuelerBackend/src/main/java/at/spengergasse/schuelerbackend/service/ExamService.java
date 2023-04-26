@@ -84,7 +84,6 @@ public class ExamService {
     }
 
     private Exam _createExam(Optional<String> token, MutateExamCommand command){
-        LocalDateTime creationTS = temporalValueFactory.now();
         String tokenValue = token.orElseGet(tokenService::createNanoId);
 
         Exam exam = Exam.builder()
@@ -92,6 +91,7 @@ public class ExamService {
                 .date(command.date())
                 .newGradeValue(command.newGradeValue())
                 .grade(gradeRepository.findByToken(command.grade()).orElse(null))
+                .token(tokenValue)
                 .build();
 
         return examRepository.save(exam);
