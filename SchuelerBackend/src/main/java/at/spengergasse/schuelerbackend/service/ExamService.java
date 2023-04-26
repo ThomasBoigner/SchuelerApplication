@@ -60,13 +60,13 @@ public class ExamService {
         Objects.requireNonNull(command,"Command must not be null!");
 
         Optional<Exam> entity = examRepository.getExamByToken(token);
-        if (!entity.isPresent()){
+        if (entity.isEmpty()){
             throw new IllegalArgumentException(String.format("Exam with token %s can not be found!", token));
         }
 
         Exam exam = entity.get();
         if (command.date() != null) exam.setDate(command.date());
-        if (command.examResult() != null) exam.setExamResult(command.examResult().intValue());
+        if (command.examResult() != null) exam.setExamResult(command.examResult());
         if (command.newGradeValue() != null) exam.setNewGradeValue(command.newGradeValue());
         if (command.grade() != null) exam.setGrade(gradeRepository.findByToken(command.grade()).orElseThrow(() -> new IllegalArgumentException(String.format("Grade with token %s can not be found!", command.grade()))));
 
@@ -85,7 +85,7 @@ public class ExamService {
 
     private Exam _createExam(Optional<String> token, MutateExamCommand command){
         LocalDateTime creationTS = temporalValueFactory.now();
-        String tokenValue = token.orElseGet(() -> tokenService.createNanoId());
+        String tokenValue = token.orElseGet(tokenService::createNanoId);
 
         Exam exam = Exam.builder()
                 .examResult(command.examResult())

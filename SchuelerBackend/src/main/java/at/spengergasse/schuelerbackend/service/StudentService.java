@@ -66,7 +66,7 @@ public class StudentService {
 
         Optional<Student> entity = studentRepository.findStudentsByToken(token);
 
-        if (!entity.isPresent()){
+        if (entity.isEmpty()){
             throw new IllegalArgumentException(String.format("Student with token %s can not be found!", token));
         }
 
@@ -93,7 +93,7 @@ public class StudentService {
 
     private Student _createStudent(Optional<String> token, MutateStudentCommand command){
         LocalDateTime creationTS = temporalValueFactory.now();
-        String tokenValue = token.orElseGet(() -> tokenService.createNanoId());
+        String tokenValue = token.orElseGet(tokenService::createNanoId);
 
         Class _class = classRepository.getClassByToken(command._class()).orElse(null);
 

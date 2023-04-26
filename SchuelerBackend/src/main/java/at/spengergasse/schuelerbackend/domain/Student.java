@@ -2,6 +2,8 @@ package at.spengergasse.schuelerbackend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.time.LocalDateTime;
@@ -19,7 +21,10 @@ public class Student extends AbstractPersistable<Long> {
     private String email;
 
     private String token;
+    @CreationTimestamp
     private LocalDateTime creationTS;
+    @UpdateTimestamp
+    private LocalDateTime updateTS;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "class_id")
