@@ -36,7 +36,6 @@ public class ClassRestController {
     public static final String PATH_VAR_ID = "/{id}";
     public static final String ROUTE_ID = BASE_URL + PATH_VAR_ID;
 
-    @CrossOrigin
     @GetMapping({"", PATH_INDEX})
     public HttpEntity<List<ClassDto>> getClasses(){
         log.debug("Incoming Http GET all classes request received");
@@ -64,13 +63,13 @@ public class ClassRestController {
 
     @PutMapping(PATH_VAR_ID)
     public HttpEntity<ClassDto> replaceClass(@PathVariable String id, @RequestBody @Valid MutateClassCommand command){
-        log.debug("Incoming Http PUT request with class command {} for id {} received", command, id);
+        log.debug("Incoming Http PUT request for id {} with class command {} received", id, command);
         return ResponseEntity.ok(new ClassDto(classService.replaceClass(id, command)));
     }
 
     @PatchMapping(PATH_VAR_ID)
     public HttpEntity<ClassDto> partiallyUpdateClass(@PathVariable String id, @RequestBody @Valid UpdateClassCommand command){
-        log.debug("Incoming Http PATCH request with class command {} for id {} received", command, id);
+        log.debug("Incoming Http PATCH request for id {} with class command {} received", id, command);
         return ResponseEntity.ok(new ClassDto(classService.partiallyUpdateStudent(id, command)));
     }
 
@@ -89,11 +88,11 @@ public class ClassRestController {
     }
 
     private URI createSelfLink(Class _class) {
-         URI selfURI = UriComponentsBuilder.fromPath(ROUTE_ID)
+         URI selfLink = UriComponentsBuilder.fromPath(ROUTE_ID)
                 .uriVariables(Map.of("token", _class.getToken()))
                 .build().toUri();
-         log.debug("Created selfURI {} for class {}", selfURI, _class);
-         return selfURI;
+         log.debug("Created self link {} for class {}", selfLink, _class);
+         return selfLink;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

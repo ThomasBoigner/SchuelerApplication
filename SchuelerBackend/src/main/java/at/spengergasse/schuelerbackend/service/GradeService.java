@@ -26,7 +26,7 @@ public class GradeService {
     private final LessonRepository lessonRepository;
     private final TokenService tokenService;
 
-    public List<Grade> getExams(){
+    public List<Grade> getGrades(){
         log.debug("Trying to get all grades");
         List<Grade> allGrades = gradeRepository.findAll();
         log.info("Retrieved all ({}) grades", allGrades.size());

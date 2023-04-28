@@ -23,6 +23,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173/"})
 @RestController
 @RequestMapping(ExamRestController.BASE_URL)
 public class ExamRestController {
