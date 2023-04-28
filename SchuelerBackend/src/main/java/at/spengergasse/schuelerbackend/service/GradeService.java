@@ -1,6 +1,8 @@
 package at.spengergasse.schuelerbackend.service;
 
 import at.spengergasse.schuelerbackend.domain.Grade;
+import at.spengergasse.schuelerbackend.domain.Lesson;
+import at.spengergasse.schuelerbackend.domain.Student;
 import at.spengergasse.schuelerbackend.persistence.GradeRepository;
 import at.spengergasse.schuelerbackend.persistence.LessonRepository;
 import at.spengergasse.schuelerbackend.persistence.StudentRepository;
@@ -64,10 +66,10 @@ public class GradeService {
         }
 
         gradeRepository.deleteGradeByToken(token);
-        log.trace("Deleted class with token {}", token);
+        log.trace("Deleted grade with token {}", token);
 
         Grade replacedGrade = _createGrade(Optional.of(token), command);
-        log.info("Successfully replaced class {}", replacedGrade);
+        log.info("Successfully replaced grade {}", replacedGrade);
         return replacedGrade;
     }
 
@@ -108,15 +110,21 @@ public class GradeService {
 
     private Grade _createGrade(Optional<String> token, MutateGradeCommand command) {
         String tokenValue = token.orElseGet(tokenService::createNanoId);
-        log.trace("Token value for class {}", tokenValue);
+        log.trace("Token value for new grade {}", tokenValue);
+
+        Student student = studentRepository.findStudentsByToken(command.student())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Can not find student with token %s", command.student())));
+        log.trace("Retrieved student {} with token {} for initialization of the grade", student, token);
+
+        Lesson lesson = lessonRepository.findLessonByToken(command.lesson())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Can not find lesson with token %s", command.lesson())));
+        log.trace("Retrieved lesson {} with token {} for initialization of the grade", lesson, token);
 
         Grade grade = Grade.builder()
                 .gradeValue(command.gradeValue())
                 .token(tokenValue)
-                .student(studentRepository.findStudentsByToken(command.student())
-                        .orElseThrow(() -> new IllegalArgumentException(String.format("Can not find student with token %s", command.student()))))
-                .lesson(lessonRepository.findLessonByToken(command.lesson())
-                        .orElseThrow(() -> new IllegalArgumentException(String.format("Can not find lesson with token %s", command.lesson()))))
+                .student(student)
+                .lesson(lesson)
                 .build();
 
         log.trace("Mapped command {} to grade object {}", command, grade);

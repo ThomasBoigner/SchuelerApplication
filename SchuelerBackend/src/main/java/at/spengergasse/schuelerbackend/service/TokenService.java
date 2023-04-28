@@ -2,10 +2,12 @@ package at.spengergasse.schuelerbackend.service;
 
 import at.spengergasse.schuelerbackend.foundation.NanoIdFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 
+@Slf4j
 @Service
 public class TokenService {
     private final NanoIdFactory nanoIdFactory;
@@ -16,6 +18,9 @@ public class TokenService {
     }
 
     public String createNanoId(int size){
-        return nanoIdFactory.randomNanoId(size);
+        log.trace("Trying to create token with size {}", size);
+        String token = nanoIdFactory.randomNanoId(size);
+        log.debug("Created token with value {}", token);
+        return token;
     }
 }

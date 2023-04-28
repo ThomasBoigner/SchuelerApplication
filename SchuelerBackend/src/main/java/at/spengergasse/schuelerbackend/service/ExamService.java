@@ -8,6 +8,7 @@ import at.spengergasse.schuelerbackend.service.dto.command.MutateExamCommand;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateStudentCommand;
 import at.spengergasse.schuelerbackend.service.dto.command.UpdateExamCommand;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 public class ExamService {
@@ -29,38 +31,60 @@ public class ExamService {
     private final TokenService tokenService;
 
     public List<Exam> getExams(){
-        return examRepository.findAll();
+        log.debug("Trying to get all exams");
+        List<Exam> allExams = examRepository.findAll();
+        log.info("Retrieved all ({}) exams", allExams.size());
+        return allExams;
     }
 
     public Optional<Exam> getExam(String token){
-        return examRepository.getExamByToken(token);
+        log.debug("Trying to get the exam with token {}", token);
+        Optional<Exam> foundExam = examRepository.getExamByToken(token);
+        if (foundExam.isPresent()){
+            log.info("Found exam {} with token {}", foundExam.get(), foundExam.get().getId());
+        } else {
+            log.info("No exam with token {} found", token);
+        }
+        return foundExam;
     }
 
     @Transactional(readOnly = false)
     public Exam createExam(MutateExamCommand command) {
+        log.debug("Trying to create exam with command {}", command);
         Objects.requireNonNull(command, "Command must not be null!");
 
-        return _createExam(Optional.empty(), command);
+        Exam createdExam = _createExam(Optional.empty(), command);
+        log.info("Created exam {}", createdExam);
+        return createdExam;
     }
 
     @Transactional(readOnly = false)
     public Exam replaceExam(String token, MutateExamCommand command){
+        log.debug("Trying to replace exam with token {} with command {}", token, command);
         Objects.requireNonNull(command,"Command must not be null!");
 
         if(!examRepository.existsExamByToken(token)) {
+            log.warn("Exam with token {} can not be found!", token);
             throw new IllegalArgumentException(String.format("Exam with token %s can not be found!", token));
         }
 
         examRepository.deleteExamByToken(token);
-        return _createExam(Optional.of(token), command);
+        log.trace("Deleted exam with token {}", token);
+
+        Exam replacedExam = _createExam(Optional.of(token), command);
+        log.info("Successfully replaced exam {}", replacedExam);
+        return replacedExam;
     }
 
     @Transactional(readOnly = false)
     public Exam partiallyUpdateExam(String token, UpdateExamCommand command){
+        log.debug("Trying to update exam with token {} with command {}", token, command);
         Objects.requireNonNull(command,"Command must not be null!");
 
         Optional<Exam> entity = examRepository.getExamByToken(token);
+
         if (entity.isEmpty()){
+            log.warn("Exam with token {} can not be found!", token);
             throw new IllegalArgumentException(String.format("Exam with token %s can not be found!", token));
         }
 
@@ -70,21 +94,25 @@ public class ExamService {
         if (command.newGradeValue() != null) exam.setNewGradeValue(command.newGradeValue());
         if (command.grade() != null) exam.setGrade(gradeRepository.findByToken(command.grade()).orElseThrow(() -> new IllegalArgumentException(String.format("Grade with token %s can not be found!", command.grade()))));
 
+        log.info("Successfully updated exam {}", exam);
         return examRepository.save(exam);
     }
 
     @Transactional(readOnly = false)
     public void deleteExams(){
+        log.info("Successfully deleted all exams");
         examRepository.deleteAll();
     }
 
     @Transactional(readOnly = false)
     public void deleteExam(String token){
+        log.info("Successfully deleted exam with token {}", token);
         examRepository.deleteExamByToken(token);
     }
 
     private Exam _createExam(Optional<String> token, MutateExamCommand command){
         String tokenValue = token.orElseGet(tokenService::createNanoId);
+        log.trace("Token value for new exam {}", tokenValue);
 
         Exam exam = Exam.builder()
                 .examResult(command.examResult())
@@ -94,6 +122,7 @@ public class ExamService {
                 .token(tokenValue)
                 .build();
 
+        log.trace("Mapped command {} to exam object {}", command, exam);
         return examRepository.save(exam);
     }
 }

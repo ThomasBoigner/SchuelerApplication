@@ -104,7 +104,7 @@ public class ClassService {
 
     private Class _createClass(Optional<String> token, MutateClassCommand command){
         String tokenValue = token.orElseGet(tokenService::createNanoId);
-        log.trace("Token value for class {}", tokenValue);
+        log.trace("Token value for new class {}", tokenValue);
 
         Class _class = Class.builder()
                 .name(command.name())

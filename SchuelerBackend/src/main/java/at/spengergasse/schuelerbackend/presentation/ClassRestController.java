@@ -69,7 +69,6 @@ public class ClassRestController {
 
     @PatchMapping(PATH_VAR_ID)
     public HttpEntity<ClassDto> partiallyUpdateClass(@PathVariable String id, @RequestBody @Valid UpdateClassCommand command){
-        log.debug("Incoming Http PATCH request for id {} with class command {} received", id, command);
         return ResponseEntity.ok(new ClassDto(classService.partiallyUpdateStudent(id, command)));
     }
 

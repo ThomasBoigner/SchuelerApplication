@@ -7,6 +7,7 @@ import at.spengergasse.schuelerbackend.service.dto.command.MutateStudentCommand;
 import at.spengergasse.schuelerbackend.service.dto.command.UpdateStudentCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173/"})
 @RequestMapping(StudentRestController.BASE_URL)
@@ -36,6 +38,7 @@ public class StudentRestController {
 
     @GetMapping({"", PATH_INDEX})
     public HttpEntity<List<StudentDto>> getStudents(){
+        log.debug("Incoming Http GET all students request received");
         List<Student> students = studentService.getStudents();
         return (students.isEmpty())
                 ? ResponseEntity.noContent().build()
@@ -44,6 +47,7 @@ public class StudentRestController {
 
     @GetMapping(PATH_VAR_ID)
     public HttpEntity<StudentDto> getStudent(@PathVariable String id){
+        log.debug("Incoming Http GET student with id {} request received", id);
         return studentService.getStudent(id)
                 .map(StudentDto::new)
                 .map(ResponseEntity::ok)
@@ -52,36 +56,43 @@ public class StudentRestController {
 
     @PostMapping({PATH_INDEX, ""})
     public HttpEntity<StudentDto> createStudent(@RequestBody @Valid MutateStudentCommand command){
+        log.debug("Incoming Http POST request with student command {} received", command);
         Student student = studentService.createStudent(command);
         return ResponseEntity.created(createSelfLink(student)).body(new StudentDto(student));
     }
 
     @PutMapping(PATH_VAR_ID)
     public HttpEntity<StudentDto> replaceStudent(@PathVariable String id, @RequestBody @Valid MutateStudentCommand command){
+        log.debug("Incoming Http PUT request for id {} with student command {} received", id, command);
         return ResponseEntity.ok(new StudentDto(studentService.replaceStudent(id, command)));
     }
 
     @PatchMapping(PATH_VAR_ID)
     public HttpEntity<StudentDto> partiallyUpdateStudent(@PathVariable String id, @RequestBody @Valid UpdateStudentCommand command){
+        log.debug("Incoming Http PATCH request for id {} with student command {} received", id, command);
         return ResponseEntity.ok(new StudentDto(studentService.partiallyUpdateStudent(id, command)));
     }
 
     @DeleteMapping({"", PATH_INDEX})
     public HttpEntity<Void> deleteStudents(){
+        log.debug("Incoming Http DELETE request to delete all students received");
         studentService.deleteStudents();
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(PATH_VAR_ID)
     public HttpEntity<Void> deleteStudent(@PathVariable String id){
+        log.debug("Incoming Http DELETE request to delete student with id {} received", id);
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 
     private URI createSelfLink(Student student) {
-        return UriComponentsBuilder.fromPath(ROUTE_ID)
+        URI selfLink = UriComponentsBuilder.fromPath(ROUTE_ID)
                 .uriVariables(Map.of("token", student.getToken()))
                 .build().toUri();
+        log.debug("Created self link {} for class {}", selfLink, student);
+        return selfLink;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -93,6 +104,7 @@ public class StudentRestController {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+        log.debug("Incoming request had the following errors: {}", errors);
         return errors;
     }
 }
