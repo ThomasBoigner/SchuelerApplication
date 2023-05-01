@@ -4,13 +4,11 @@ import at.spengergasse.schuelerbackend.domain.Class;
 import at.spengergasse.schuelerbackend.foundation.TemporalValueFactory;
 import at.spengergasse.schuelerbackend.persistence.ClassRepository;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateClassCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.UpdateClassCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -72,7 +70,7 @@ public class ClassService {
     }
 
    @Transactional(readOnly = false)
-   public Class partiallyUpdateStudent(String token, UpdateClassCommand command){
+   public Class partiallyUpdateStudent(String token, MutateClassCommand command){
        log.debug("Trying to update class with token {} with command {}", token, command);
        Objects.requireNonNull(command, "Command must not be null!");
 
@@ -84,7 +82,7 @@ public class ClassService {
        }
 
        Class _class = entity.get();
-       if (command.name() != null && !command.name().isBlank()) _class.setName(command.name());
+       if (command.name() != null) _class.setName(command.name());
 
        log.info("Successfully updated class {}", _class);
        return classRepository.save(_class);

@@ -7,5 +7,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record MutateExamCommand(@NotNull LocalDateTime date, @Min(0) @Max(5) int examResult, @Min(0) @Max(5) int newGradeValue, @NotNull String grade) {
+public record MutateExamCommand(LocalDateTime date, Integer examResult, Integer newGradeValue, String grade) {
 }

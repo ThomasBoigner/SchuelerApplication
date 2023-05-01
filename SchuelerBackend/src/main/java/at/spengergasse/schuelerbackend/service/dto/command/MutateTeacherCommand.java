@@ -6,4 +6,4 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public record MutateTeacherCommand(@NotBlank String firstname, @NotBlank String lastname, @NotBlank String email) { }
+public record MutateTeacherCommand(String firstname, String lastname, String email) { }

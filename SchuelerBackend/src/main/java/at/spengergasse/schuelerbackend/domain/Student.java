@@ -1,6 +1,8 @@
 package at.spengergasse.schuelerbackend.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,10 +18,18 @@ import java.util.*;
 
 @Entity
 public class Student extends AbstractPersistable<Long> {
+    @NotBlank(message = "Firstname must not be blank!")
+    @NotNull(message = "Firstname must not be null!")
     private String firstname;
+    @NotBlank(message = "Lastname must not be blank!")
+    @NotNull(message = "Lastname must not be null!")
     private String lastname;
+    @NotBlank(message = "E-mail must not be blank!")
+    @NotNull(message = "E-mail must not be null!")
     private String email;
 
+    @NotBlank(message = "Token must not be blank!")
+    @NotNull(message = "Token must not be null!")
     private String token;
     @CreationTimestamp
     private LocalDateTime creationTS;

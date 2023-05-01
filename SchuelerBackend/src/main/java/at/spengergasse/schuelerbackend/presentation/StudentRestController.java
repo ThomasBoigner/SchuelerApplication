@@ -4,7 +4,6 @@ import at.spengergasse.schuelerbackend.domain.Student;
 import at.spengergasse.schuelerbackend.service.StudentService;
 import at.spengergasse.schuelerbackend.service.dto.StudentDto;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateStudentCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.UpdateStudentCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,20 +54,20 @@ public class StudentRestController {
     }
 
     @PostMapping({PATH_INDEX, ""})
-    public HttpEntity<StudentDto> createStudent(@RequestBody @Valid MutateStudentCommand command){
+    public HttpEntity<StudentDto> createStudent(@RequestBody MutateStudentCommand command){
         log.debug("Incoming Http POST request with student command {} received", command);
         Student student = studentService.createStudent(command);
         return ResponseEntity.created(createSelfLink(student)).body(new StudentDto(student));
     }
 
     @PutMapping(PATH_VAR_ID)
-    public HttpEntity<StudentDto> replaceStudent(@PathVariable String id, @RequestBody @Valid MutateStudentCommand command){
+    public HttpEntity<StudentDto> replaceStudent(@PathVariable String id, @RequestBody MutateStudentCommand command){
         log.debug("Incoming Http PUT request for id {} with student command {} received", id, command);
         return ResponseEntity.ok(new StudentDto(studentService.replaceStudent(id, command)));
     }
 
     @PatchMapping(PATH_VAR_ID)
-    public HttpEntity<StudentDto> partiallyUpdateStudent(@PathVariable String id, @RequestBody @Valid UpdateStudentCommand command){
+    public HttpEntity<StudentDto> partiallyUpdateStudent(@PathVariable String id, @RequestBody MutateStudentCommand command){
         log.debug("Incoming Http PATCH request for id {} with student command {} received", id, command);
         return ResponseEntity.ok(new StudentDto(studentService.partiallyUpdateStudent(id, command)));
     }

@@ -1,11 +1,9 @@
 package at.spengergasse.schuelerbackend.presentation;
 
 import at.spengergasse.schuelerbackend.domain.Exam;
-import at.spengergasse.schuelerbackend.domain.Student;
 import at.spengergasse.schuelerbackend.service.ExamService;
 import at.spengergasse.schuelerbackend.service.dto.ExamDto;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateExamCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.UpdateExamCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,20 +54,20 @@ public class ExamRestController {
     }
 
     @PostMapping({"", PATH_INDEX})
-    public HttpEntity<ExamDto> createExam(@RequestBody @Valid MutateExamCommand command){
+    public HttpEntity<ExamDto> createExam(@RequestBody MutateExamCommand command){
         log.debug("Incoming Http POST request with exam command {} received", command);
         Exam exam = examService.createExam(command);
         return ResponseEntity.created(createSelfLink(exam)).body(new ExamDto(exam));
     }
 
     @PutMapping(PATH_VAR_ID)
-    public HttpEntity<ExamDto> replaceExam(@PathVariable String id, @RequestBody @Valid MutateExamCommand command){
+    public HttpEntity<ExamDto> replaceExam(@PathVariable String id, @RequestBody MutateExamCommand command){
         log.debug("Incoming Http PUT request for id {} with exam command {} received", id, command);
         return ResponseEntity.ok(new ExamDto(examService.replaceExam(id, command)));
     }
 
     @PatchMapping(PATH_VAR_ID)
-    public HttpEntity<ExamDto> partiallyUpdateExam(@PathVariable String id, @RequestBody @Valid UpdateExamCommand command){
+    public HttpEntity<ExamDto> partiallyUpdateExam(@PathVariable String id, @RequestBody MutateExamCommand command){
         log.debug("Incoming Http PATCH request for id {} with exam command {} received", id, command);
         return ResponseEntity.ok(new ExamDto(examService.partiallyUpdateExam(id, command)));
     }

@@ -1,6 +1,8 @@
 package at.spengergasse.schuelerbackend.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +31,8 @@ public class Lesson extends AbstractPersistable<Long> {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
+    @NotBlank(message = "Token must not be blank!")
+    @NotNull(message = "Token must not be null!")
     private String token;
     @CreationTimestamp
     private LocalDateTime creationTS;

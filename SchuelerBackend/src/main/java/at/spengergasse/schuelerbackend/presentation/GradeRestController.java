@@ -4,21 +4,17 @@ import at.spengergasse.schuelerbackend.domain.Grade;
 import at.spengergasse.schuelerbackend.service.GradeService;
 import at.spengergasse.schuelerbackend.service.dto.GradeDto;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateGradeCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.UpdateGradeCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +65,7 @@ public class GradeRestController {
     }
 
     @PatchMapping(PATH_VAR_ID)
-    public HttpEntity<GradeDto> updateGrade(@PathVariable String id, @RequestBody UpdateGradeCommand command){
+    public HttpEntity<GradeDto> updateGrade(@PathVariable String id, @RequestBody MutateGradeCommand command){
         log.debug("Incoming HTTP PATCH request for id {} with grade command {} received", id, command);
         return ResponseEntity.ok(new GradeDto(gradeService.partiallyUpdateGrade(id, command)));
     }

@@ -5,14 +5,11 @@ import at.spengergasse.schuelerbackend.foundation.TemporalValueFactory;
 import at.spengergasse.schuelerbackend.persistence.ExamRepository;
 import at.spengergasse.schuelerbackend.persistence.GradeRepository;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateExamCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.MutateStudentCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.UpdateExamCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -77,7 +74,7 @@ public class ExamService {
     }
 
     @Transactional(readOnly = false)
-    public Exam partiallyUpdateExam(String token, UpdateExamCommand command){
+    public Exam partiallyUpdateExam(String token, MutateExamCommand command){
         log.debug("Trying to update exam with token {} with command {}", token, command);
         Objects.requireNonNull(command,"Command must not be null!");
 

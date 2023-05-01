@@ -5,14 +5,12 @@ import at.spengergasse.schuelerbackend.domain.Class;
 import at.spengergasse.schuelerbackend.foundation.TemporalValueFactory;
 import at.spengergasse.schuelerbackend.persistence.*;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateStudentCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.UpdateStudentCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -85,7 +83,7 @@ public class StudentService {
     }
 
     @Transactional(readOnly = false)
-    public Student partiallyUpdateStudent(String token, UpdateStudentCommand command){
+    public Student partiallyUpdateStudent(String token, MutateStudentCommand command){
         log.debug("Trying to update student with token {} with command {}", token, command);
         Objects.requireNonNull(command, "Command must not be null!");
 
@@ -97,12 +95,11 @@ public class StudentService {
         }
 
         Student student = entity.get();
-        if (command.firstname() != null && !command.firstname().isBlank()) student.setFirstname(command.firstname());
-        if (command.lastname() != null && !command.lastname().isBlank()) student.setLastname(command.lastname());
-        if (command.email() != null && !command.email().isBlank()) student.setEmail(command.email());
+        if (command.firstname() != null) student.setFirstname(command.firstname());
+        if (command.lastname() != null) student.setLastname(command.lastname());
+        if (command.email() != null) student.setEmail(command.email());
         if (command._class() != null) student.set_class(classRepository.getClassByToken(command._class()).orElseThrow(() -> new IllegalArgumentException(String.format("Class with token %s can not be found!", command._class()))));
-        if (command.conferenceDecision() != null) student.setConferenceDecision(command.conferenceDecision().booleanValue());
-        if (command.grades() != null && !command.grades().isEmpty()) student.setGrades(command.grades().stream().map((String gradeToken) -> gradeRepository.findByToken(gradeToken).orElse(null)).toList());
+        if (command.conferenceDecision() != null) student.setConferenceDecision(command.conferenceDecision());
 
         log.info("Successfully updated student {}", student);
         return studentRepository.save(student);
@@ -134,9 +131,8 @@ public class StudentService {
                 .conferenceDecision(command.conferenceDecision())
                 ._class(_class)
                 .token(tokenValue)
+                .grades(new ArrayList<>())
                 .build();
-
-        student.setGrades(command.grades().stream().map((String gradeToken) -> gradeRepository.findByToken(gradeToken).orElse(null)).toList());
 
         log.trace("Mapped command {} to class object {}", command, _class);
         return studentRepository.save(student);

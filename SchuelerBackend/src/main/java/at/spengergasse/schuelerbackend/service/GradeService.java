@@ -7,7 +7,6 @@ import at.spengergasse.schuelerbackend.persistence.GradeRepository;
 import at.spengergasse.schuelerbackend.persistence.LessonRepository;
 import at.spengergasse.schuelerbackend.persistence.StudentRepository;
 import at.spengergasse.schuelerbackend.service.dto.command.MutateGradeCommand;
-import at.spengergasse.schuelerbackend.service.dto.command.UpdateGradeCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -74,7 +73,7 @@ public class GradeService {
     }
 
     @Transactional(readOnly = false)
-    public Grade partiallyUpdateGrade(String token, UpdateGradeCommand command){
+    public Grade partiallyUpdateGrade(String token, MutateGradeCommand command){
         log.debug("Trying to update grade with token {} with command {}", token, command);
         Objects.requireNonNull(command, "Command must not be null!");
 

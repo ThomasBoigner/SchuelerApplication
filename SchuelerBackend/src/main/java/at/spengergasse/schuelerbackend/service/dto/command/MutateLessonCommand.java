@@ -5,4 +5,4 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public record MutateLessonCommand(String subject, String _class, String teacherCommand) { }
+public record MutateLessonCommand(String shortName, String longName, String _class, String teacher) { }
