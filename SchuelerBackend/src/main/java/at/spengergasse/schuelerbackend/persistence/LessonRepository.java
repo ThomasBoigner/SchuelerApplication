@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
     Optional<Lesson> getLessonBy_class_NameAndTeacher_LastnameAndSubject_LongName(String className, String teacherLastName, String subjectName);
     Optional<Lesson> findLessonByToken(String token);
+    boolean existsLessonByToken(String token);
+    void deleteLessonByToken(String token);
 }

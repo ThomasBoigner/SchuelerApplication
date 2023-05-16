@@ -21,7 +21,6 @@ import java.util.Optional;
 public class ClassService {
     private final ClassRepository classRepository;
     private final TokenService tokenService;
-    private final TemporalValueFactory temporalValueFactory;
 
     public List<Class> getClasses(){
         log.debug("Trying to get all classes");
