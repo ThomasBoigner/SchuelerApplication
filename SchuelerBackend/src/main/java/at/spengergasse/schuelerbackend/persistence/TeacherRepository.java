@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     Optional<Teacher> getByLastnameAndFirstname(String Lastname, String Firstname);
     Optional<Teacher> findByToken(String token);
+    boolean existsTeacherByToken(String token);
+    void deleteTeacherByToken(String token);
 }

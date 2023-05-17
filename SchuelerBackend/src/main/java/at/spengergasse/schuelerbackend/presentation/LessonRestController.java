@@ -30,7 +30,7 @@ public class LessonRestController {
 
     private final LessonService lessonService;
 
-    public static final String BASE_URL = "/api/exam";
+    public static final String BASE_URL = "/api/lesson";
     public static final String PATH_INDEX = "/";
     public static final String PATH_VAR_ID = "/{id}";
     public static final String ROUTE_ID = BASE_URL + PATH_VAR_ID;

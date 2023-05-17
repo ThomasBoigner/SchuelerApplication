@@ -92,7 +92,7 @@ public class LessonService {
         if (command.teacher() != null) lesson.setTeacher(teacherRepository.findByToken(command.teacher()).orElseThrow(() -> new IllegalArgumentException(String.format("Teacher with Token %s can not be found!", command.teacher()))));
 
         log.info("Successfully updated lesson {}", lesson);
-        return lesson;
+        return lessonRepository.save(lesson);
     }
 
     @Transactional(readOnly = false)
@@ -109,7 +109,7 @@ public class LessonService {
 
     private Lesson _createLesson(Optional<String> token, MutateLessonCommand command) {
         String tokenValue = token.orElseGet(tokenService::createNanoId);
-        log.trace("Token value for new Lesson {}", tokenValue);
+        log.trace("Token value for new lesson {}", tokenValue);
 
         Lesson lesson = Lesson.builder()
                 .token(tokenValue)
@@ -122,6 +122,6 @@ public class LessonService {
                 .build();
 
         log.trace("Mapped command {} to lesson object {}", command, lesson);
-        return lesson;
+        return lessonRepository.save(lesson);
     }
 }
