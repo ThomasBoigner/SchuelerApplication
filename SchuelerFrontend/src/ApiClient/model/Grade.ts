@@ -1,6 +1,6 @@
 import type { Lesson } from "./Lesson";
 
-export interface Grade{
+export type Grade = {
     lesson: Lesson,
     gradeValue: number,
     token: string,

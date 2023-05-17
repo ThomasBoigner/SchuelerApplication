@@ -1,4 +1,4 @@
-export interface Subject{
+export type Subject = {
     shortname: string,
     longname: string, 
     token: string,

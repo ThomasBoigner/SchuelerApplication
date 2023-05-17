@@ -2,7 +2,7 @@ import type { Class } from "./Class";
 import type { Subject } from "./Subject";
 import type { Teacher } from "./Teacher";
 
-export interface Lesson{
+export type Lesson = {
     subject: Subject,
     class: Class,
     teacher: Teacher,

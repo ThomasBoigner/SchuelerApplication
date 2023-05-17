@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { deleteClass, getClasses, deleteClasses, createClass, updateClass } from '@/service/ClassService';
-import type { ClassForm } from '@/service/forms/ClassForm';
-import type { Class } from '@/service/model/Class';
+import { deleteClass, getClasses, deleteClasses, createClass, updateClass, useClassStore } from '@/ApiClient/ClassApiClient';
+import type { ClassForm } from '@/ApiClient/forms/ClassForm';
+import type { Class } from '@/ApiClient/model/Class';
 import { onMounted, ref } from 'vue';
+
+const classStore = useClassStore();
 
 const classes = ref<Class[] | void>();
 const form = ref<ClassForm>({name: ''});
@@ -34,6 +36,10 @@ async function updateClassFromList(token: string, form: ClassForm){
 </script>
 <template>
     <h1>Classes</h1>
+    <input v-model="form.name"><br>
+    <button @click="addClass(form)">Create Class</button><br>
+    <button @click="refresh()">Refresh</button><br>
+    <button @click="removeAllClasses()">Delete All</button>
     <table>
         <tr v-for="_class in classes" :key="_class.token">
             <td>{{_class.name}}</td>
@@ -41,11 +47,6 @@ async function updateClassFromList(token: string, form: ClassForm){
             <td><button @click="updateClassFromList(_class.token, form)">Update</button></td>
         </tr>
     </table>
-    
-    <input v-model="form.name"><br>
-    <button @click="addClass(form)">Create Class</button><br>
-    <button @click="refresh()">Refresh</button><br>
-    <button @click="removeAllClasses()">Delete All</button>
 </template>
 <style scoped>
 

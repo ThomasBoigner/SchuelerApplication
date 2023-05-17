@@ -1,7 +1,7 @@
 import type { Class } from "./Class";
 import type { Grade } from "./Grade";
 
-export interface Student{
+export type Student = {
     firstname: string,
     lastname: string,
     email: string,

@@ -1,4 +1,4 @@
-export interface Teacher{
+export type Teacher = {
     firstname: string,
     lastname: string,
     email: string,

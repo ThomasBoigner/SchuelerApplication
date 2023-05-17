@@ -1,6 +1,6 @@
 import type { Grade } from "./Grade"
 
-export interface Exam{
+export type Exam = {
     date: Date,
     examResult: number,
     newGradeValue: number,
