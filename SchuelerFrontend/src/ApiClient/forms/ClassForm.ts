@@ -1,3 +1,3 @@
-export interface ClassForm{
+export type ClassForm = {
     name: string
 }

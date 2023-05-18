@@ -1,50 +1,22 @@
 <script setup lang="ts">
-import { deleteClass, getClasses, deleteClasses, createClass, updateClass, useClassStore } from '@/ApiClient/ClassApiClient';
-import type { ClassForm } from '@/ApiClient/forms/ClassForm';
-import type { Class } from '@/ApiClient/model/Class';
-import { onMounted, ref } from 'vue';
+import { deleteClass, getClasses, deleteClasses, createClass, updateClass} from '@/ApiClient/ClassApiClient';
+import { useClassStore } from '@/ApiClient/ClassStore';
 
 const classStore = useClassStore();
-
-const classes = ref<Class[] | void>();
-const form = ref<ClassForm>({name: ''});
-
-
-onMounted(async () => {
-    classes.value = await getClasses()
-})
-
-async function removeClass(token: string){
-    deleteClass(token).then(() => refresh())
-}
-async function removeAllClasses(){
-    deleteClasses().then(() => refresh())
-}
-
-async function refresh(){
-    classes.value = await getClasses()
-}
-
-async function addClass(form: ClassForm){
-    createClass(form).then(() => refresh())
-}
-
-async function updateClassFromList(token: string, form: ClassForm){
-    updateClass(token, form).then(() => refresh())
-}
 
 </script>
 <template>
     <h1>Classes</h1>
-    <input v-model="form.name"><br>
-    <button @click="addClass(form)">Create Class</button><br>
-    <button @click="refresh()">Refresh</button><br>
-    <button @click="removeAllClasses()">Delete All</button>
+    {{classStore.classError}}
+    <input v-model="classStore.classForm.name"><br>
+    <button @click="createClass">Create Class</button><br>
+    <button @click="getClasses()">Refresh</button><br>
+    <button @click="deleteClasses()">Delete All</button>
     <table>
-        <tr v-for="_class in classes" :key="_class.token">
+        <tr v-for="_class in classStore.classes" :key="_class.token">
             <td>{{_class.name}}</td>
-            <td><button @click="removeClass(_class.token)">Delete</button></td>
-            <td><button @click="updateClassFromList(_class.token, form)">Update</button></td>
+            <td><button @click="deleteClass(_class.token)">Delete</button></td>
+            <td><button @click="updateClass(_class.token)">Update</button></td>
         </tr>
     </table>
 </template>

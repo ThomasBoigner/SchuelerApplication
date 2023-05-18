@@ -1,4 +1,4 @@
-export interface ExamForm{
+export type ExamForm = {
     date: Date
     examResult: number
     newGradeValue: number
